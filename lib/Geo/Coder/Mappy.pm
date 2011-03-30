@@ -9,7 +9,7 @@ use JSON;
 use LWP::UserAgent;
 use URI;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 $VERSION = eval $VERSION;
 
 sub new {
@@ -33,7 +33,7 @@ sub new {
         $self->ua->default_header(accept_encoding => 'gzip,deflate');
     }
 
-    croak q('https' requires Crypt::SSLeay or IO::Socket::SSL)
+    croak q('https' requires LWP::Protocol::https)
         if $params{https} and not $self->ua->is_protocol_supported('https');
 
     return $self;
@@ -123,9 +123,10 @@ functionality of the Mappy AJAX API.
 
 =head2 new
 
-    $geocoder = Geo::Coder::Navteq->new('Your Mappy AJAX API token')
-    $geocoder = Geo::Coder::Navteq->new(
+    $geocoder = Geo::Coder::Mappy->new('Your Mappy AJAX API token')
+    $geocoder = Geo::Coder::Mappy->new(
         token => 'Your Mappy AJAX API token',
+        https => 1,
         debug => 1,
     )
 
